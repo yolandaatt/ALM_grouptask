@@ -1,6 +1,6 @@
-const sequelize = require('../src/config/database');
-const User = require('../src/models/User');
-const Accomodation = require('../src/models/Accomodation');
+const sequelize = require('../../src/config/database');
+const User = require('../../src/models/User');
+const Accomodation = require('../../src/models/Accomodation');
 
 beforeAll(async () => {
   await sequelize.sync({ force: true });

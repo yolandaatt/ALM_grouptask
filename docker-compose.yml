@@ -1,0 +1,30 @@
+version: '3.8'  # Specificerar Compose-formatet
+
+services:
+  db:
+    image: postgres:15  # Använder officiell PostgreSQL-bild
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"  # Exponerar databasens port
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Bevarar data även om containern tas bort
+
+  app:
+    build:
+      context: .  # Bygg app-containern från Dockerfile i denna mapp
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Exponerar Node-appens port
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+    depends_on:
+      - db  # Ser till att databasen startar före appen
+
+volumes:
+  pgdata:  # Namngivet volymblock
